@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>日统计页面</title>
+  <link rel="stylesheet" href="http://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    .demo-block {
+      border: 1px solid #eaeefb;
+      border-radius: 4px;
+      transition: .2s;
+      padding: 20px 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .stats-result {
+      border: 1px solid #eaeefb;
+      border-radius: 4px;
+      transition: .2s;
+      min-height: 100px;
+      color: gray;
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="demo-block">
+    <form class="el-form">
+      <section class="el-form-item">
+        <label class="el-form-item__label" style="width: 80px;">
+          报告正文
+        </label>
+        <div class="el-form-item__content" style="margin-left: 80px;">
+          <div class="el-textarea">
+            <textarea rows="20" class="el-textarea__inner"></textarea>
+          </div>
+        </div>
+      </section>
+      <section class="el-form-item">
+        <label for="" class="el-form-item__label" style="width: 80px;">
+          统计结果
+        </label>
+        <div class="el-form-item__content stats-result" style="margin-left: 80px">统计结果....</div>
+      </section>
+      <section class="el-form-item">
+        <div class="el-form-item__content" style="margin-left: 80px;">
+          <button type="button" class="el-button el-button--primary">
+            <span>立即统计</span>
+          </button>
+          <button type="button" class="el-button el-button--default">
+            <span>取消</span>
+          </button>
+        </div>
+      </section>
+    </form>
+  </section>
+  <script>
+    const INIT_CONTENT =
+      `
+        一类工作
+
+      - nodinx tafproxy响应处理调整(大连同事需要) — 12分
+      - 图谱后台中tafnodinx框架的controller和service测试用例完善 — 4小时1分, 打断5次
+      - 处理nodinx中ctx.userId获取的bug — 32分
+      - nodinx-2.9.4代码问题修复 — 28分
+      - 修复nodinx-taf-utils导致的TcwWeb测试环境代码问题的bug, 由此更新所有nodinx插件打印加载成功时加上版本号 — 46分
+
+      二类工作
+
+      - 时间统计 — 32分; 
+      - 数众早会 — 27分;  nodinx issue管理 — 16分;  RTX处理 — 17分; 和嘉永沟通 — 5分; 讨论前端服务可用性监控 问题 — 42分; 项目沟通 — 5分; 
+      - 大连同事nodinx服务发布到taf上问题跟进 — 20分, 
+
+      生活休息
+
+      - 喝药 — 6分; 吃午饭 — 29分; 午睡 — 48分; 
+      - 交通 — 20分
+      - 搜索和下载画家相关的传记电子书 — 43分; 
+      - 和raintou, juncos, spriterchen一起吃饭 — 1小时25分
+      - 和新峰聊天 — 10分
+
+      运动健身
+
+      - 散步 — 19分, 20分
+        `;
+    class StatCollection extends Map {
+      constructor() {
+        super();
+      }
+    }
+
+    class StatItem {
+      constructor(name, list) {
+        this.name = name;
+        this.list = list;
+        this.total = 0;
+      }
+    };
+
+    const app = {
+
+      find(...args) {
+        return document.querySelector(...args);
+      },
+
+      log(...args) {
+        console.log.call(console.log, '[day-stats]', ...args);
+      },
+
+      initialize() {
+        this.$statsBtn = this.find('.el-button--primary');
+        this.$cancelBtn = this.find('.el-button--default');
+        this.$content = this.find('textarea');
+
+        this.content = INIT_CONTENT;
+        this.stats = '';
+        this.collection = new StatCollection();
+
+        this.$content.value = this.content;
+        this.bindStats();
+      },
+
+      bindStats() {
+        this.$statsBtn.addEventListener('click', () => {
+          this.content = this.$content.value;
+          this.generateStatItems();
+        });
+      },
+
+      generateStatItems() {
+        this.content.replace(/一类工作([\r\t\s\S]*)二类工作([\r\t\s\S]*)生活休息([\r\t\s\S]*)运动健身([\r\t\s\S]*)/g, (block,
+          m1, m2, m3, m4) => {
+          console.log(`m1: ${m1}, m2:${m2}, m3:${m3}, m4: ${m4}`);
+          [m1, m2, m3, m4].forEach((item, index) => {
+            let name = '一类工作';
+            switch (index) {
+              case 0:
+                break;
+              case 1:
+                name = '二类工作';
+                break;
+              case 2:
+                name = '生活休息';
+                break;
+              case 3:
+                name = '运动健身';
+                break;
+            }
+            this.collection.set(name, new StatItem(name, item.split('\n')));
+          });
+          this.log('this.collection: ', this.collection);
+          return block;
+        });
+      },
+    };
+    window.app = app;
+
+    app.initialize();
+  </script>
+</body>
+
+</html>
