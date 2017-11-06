@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>
+		<%= htmlWebpackPlugin.options.title %>
+	</title>
+	<link rel="stylesheet" href="http://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+	<section class="demo-block">
+		<form class="el-form">
+			<section class="el-form-item">
+				<label class="el-form-item__label" style="width: 80px;">
+					报告正文
+				</label>
+				<div class="el-form-item__content" style="margin-left: 80px;">
+					<div class="el-textarea origin">
+						<textarea rows="20" class="el-textarea__inner"></textarea>
+					</div>
+				</div>
+			</section>
+			<section class="el-form-item">
+				<label for="" class="el-form-item__label" style="width: 80px;">
+					统计结果
+				</label>
+				<div class="el-form-item__content stats-result" style="margin-left: 80px">
+          <textarea rows="10" class="el-textarea__inner"></textarea>
+        </div>
+			</section>
+			<section class="el-form-item">
+				<div class="el-form-item__content" style="margin-left: 80px;">
+					<button type="button" class="el-button el-button--primary">
+						<span>立即统计</span>
+					</button>
+					<button type="button" class="el-button el-button--default">
+						<span>取消</span>
+					</button>
+				</div>
+			</section>
+		</form>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{
+  "extends": "eslint-config-bugly",
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.config.js"
+      }
+    }
+  },
+  "rules": {
+    "no-param-reassign": "off",
+    "no-restricted-syntax": "off"
+  }
+}
