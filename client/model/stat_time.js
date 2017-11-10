@@ -1,3 +1,5 @@
+import { REG_HOUR_TIME } from '../util/constant';
+
 export default class StatTime {
   constructor(...args) {
     if (args.length === 2) {
@@ -8,7 +10,7 @@ export default class StatTime {
       this.minute = 0;
     } else {
       const time = args[0];
-      const [, hour, minute] = time.match(/(?:(\d+)小?时)?(\d+)分钟?/i);
+      const [, hour, minute] = time.match(REG_HOUR_TIME);
       this.hour = hour ? parseInt(hour) : 0;
       this.minute = minute ? parseInt(minute) : 0;
       this.carryPossible();
@@ -24,6 +26,10 @@ export default class StatTime {
     this.minute += another.minute;
     this.carryPossible();
     return this;
+  }
+
+  percent(another) {
+    return `${Math.floor((another.minutes * 100) / this.minutes)}%`;
   }
 
   carryPossible() {

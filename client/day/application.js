@@ -1,4 +1,4 @@
-import INIT_CONTENT from '../util/init_content';
+import { DEMO2 } from '../util/init_content';
 import CategoryCollection from '../model/category_collection';
 import Category from '../model/category';
 import SubCategory from '../model/sub_category';
@@ -18,7 +18,7 @@ export default class Application {
     this.$content = this.find('.origin textarea');
     this.$result = this.find('.stats-result textarea');
 
-    this.content = INIT_CONTENT;
+    this.content = DEMO2;
     this.stats = '';
     this.collection = new CategoryCollection();
 
@@ -35,12 +35,7 @@ export default class Application {
   }
 
   generateDaySummary() {
-    const summary = [];
-    for (const [, category] of this.collection.entries()) {
-      summary.push(category.toMarkdown());
-    }
-    this.log('summary: ', summary.join('\n\n'));
-    this.$result.value = summary.join('\n\n');
+    this.$result.value = this.collection.getTodaySummary();
   }
 
   generateStatItems() {

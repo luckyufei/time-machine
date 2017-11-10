@@ -13,7 +13,7 @@ export default class Category {
 
   toMarkdown() {
     const md = [`### ${this.category}`];
-    md.push(`用时 - ${this.statTime.toString()}`);
+    md.push(`- 小计 — ${this.statTime.toString()}`);
     this.subCates.forEach((sub) => {
       md.push(`- ${sub.subCate} — ${sub.statTime.toString()}`);
     });

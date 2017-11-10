@@ -5,12 +5,21 @@ export default class StatItem {
     this.key = key;
     this._origin = value;
 
-    const times = value.split(',');
-    if (times.length === 1) {
-      this.statTime = new StatTime(times[0]);
-    } else {
-      const statTimes = times.map(time => new StatTime(time));
-      this.statTime = statTimes.reduce((acc, item) => acc.add(item), new StatTime());
+    try {
+      if (value instanceof StatTime) {
+        this.statTime = value;
+      } else {
+        const times = value.match(/[^,;]*?(?:\d+小时)?\d+分(,\s*\d+分)?/g);
+        console.log('[StatItem] times: ', times);
+        if (times.length === 1) {
+          this.statTime = new StatTime(times[0]);
+        } else {
+          const statTimes = times.map(time => new StatTime(time));
+          this.statTime = statTimes.reduce((acc, item) => acc.add(item), new StatTime());
+        }
+      }
+    } catch (err) {
+      console.error('[StatItem] constructor error: ', err, ', param: ', [key, value]);
     }
   }
 
