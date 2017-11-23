@@ -1,4 +1,4 @@
-import SubCategory from './sub_category';
+import Category from './category';
 import StatItem from './stat_item';
 import StatTime from './stat_time';
 
@@ -13,12 +13,12 @@ export default class CategoryCollection extends Map {
   flatten() {
     for (const [, value] of this.entries()) {
       const {
-        category,
-        subCates,
+        title,
+        children,
       } = value;
-      subCates.forEach((subItem) => {
-        subItem.forEach(stat => console.log(
-          `{key: ${stat.key}, value: ${stat.origin}, category: ${category}, subcate: ${subItem.subCate || ''}}\r\n`));
+      children.forEach((subCate) => {
+        subCate.nodes.forEach(stat => console.log(
+          `{key: ${stat.key}, value: ${stat.origin}, category: ${title}, subcate: ${subCate.title || ''}}\r\n`));
       });
     }
   }
@@ -34,12 +34,12 @@ export default class CategoryCollection extends Map {
   }
 
   createTodaySumCategory() {
-    const summary = new SubCategory('概览', []);
+    const summary = new Category('概览', '', true);
     const totalTime = new StatTime();
-    summary.push(new StatItem('总计', totalTime));
+    summary.nodes.push(new StatItem('总计', totalTime));
     for (const [, category] of this.entries()) {
-      summary.push(new StatItem(category.category, category.statTime));
-      totalTime.add(category.statTime);
+      summary.nodes.push(new StatItem(category.title, category.time));
+      totalTime.add(category.time);
     }
     return summary;
   }

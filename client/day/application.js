@@ -1,7 +1,8 @@
 import { DEMO2 } from '../util/init_content';
-import CategoryCollection from '../model/category_collection';
+import CategoryCollection from '../model/collection';
 import Category from '../model/category';
-import SubCategory from '../model/sub_category';
+
+const TAG = '[Application] ';
 
 export default class Application {
   find(...args) {
@@ -59,26 +60,13 @@ export default class Application {
           default:
             throw new Error('Unknow index: ', index);
         }
-        this.collection.set(name, new Category(name, this.filterItem(item)));
+        console.log(`${TAG} ======== create category:${name} ======`);
+        console.log(`${TAG} origin item info: {name: ${name}, item: ${item}}`);
+        this.collection.set(name, new Category(name, item, true));
       });
 
-      this.log('this.collection: ', this.collection);
       this.collection.flatten();
       return block;
     });
-  }
-
-  createTodaySummary() {
-    const summary = new Category('今日概览');
-  }
-
-  filterItem(item) {
-    const items = item.split('\n');
-
-    return items.filter(item => !!item && !!item.trim())
-      .map(item => item.replace(/\s{2,}/g, ''))
-      .map(item => item.replace(/^-\s/g, ''))
-      // .map(item => item.split(' — '))
-      .map(item => new SubCategory('', SubCategory.parse(item)));
   }
 }

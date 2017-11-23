@@ -22,8 +22,8 @@ export default class StatTime {
   }
 
   add(another) {
-    this.hour += another.hour;
-    this.minute += another.minute;
+    this.hour += (another.hour || 0);
+    this.minute += (another.minute || 0);
     this.carryPossible();
     return this;
   }
