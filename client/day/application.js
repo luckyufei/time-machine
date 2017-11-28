@@ -1,4 +1,3 @@
-import { DEMO2 } from '../util/init_content';
 import CategoryCollection from '../model/collection';
 import Category from '../model/category';
 
@@ -19,7 +18,7 @@ export default class Application {
     this.$content = this.find('.origin textarea');
     this.$result = this.find('.stats-result textarea');
 
-    this.content = DEMO2;
+    this.content = '';
     this.stats = '';
     this.collection = new CategoryCollection();
 

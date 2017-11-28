@@ -67,15 +67,15 @@ export default class Category {
 
   toMarkdown() {
     if (this.children.length) {
-      const md = [`### ${this.title}`];
-      md.push(`- 小计 — ${this.time.toString()}`);
+      const md = [`\n### ${this.title}\n`];
+      md.push(`> 小计 — ${this.time.toString()}`);
       this.children.forEach((sub) => {
         md.push(`- ${sub.title} — ${sub.time.toString()}`);
       });
       return md.join('\n');
     }
     if (this.nodes.length) {
-      const md = [`### ${this.title}`];
+      const md = [`\n### ${this.title}\n`];
       if (this.root) { // 概览项, 它的children为空, nodes中是分类统计项
         const totalStat = this.nodes[0].time;
         this.nodes.forEach((item, idx) => {
@@ -92,5 +92,15 @@ export default class Category {
       return md.join('\n');
     }
     throw new Error('Category require children or nodes is not empty!');
+  }
+
+  toMarkdownTable() {
+    const totalStat = this.nodes[0].time;
+    return this.nodes.map((item, idx) => {
+      if (idx === 0) {
+        return `|${item.key}|${item.time.toString()}|-|`;
+      }
+      return `|${item.key}|${item.time.toString()}|${totalStat.percent(item.time)}|`;
+    });
   }
 }

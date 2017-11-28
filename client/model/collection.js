@@ -24,16 +24,14 @@ export default class CategoryCollection extends Map {
   }
 
   getTodaySummary() {
-    const summary = [];
+    const summary = [this.createTodaySumTable()];
     for (const [, category] of this.entries()) {
       summary.push(category.toMarkdown());
     }
-    const sumCategory = this.createTodaySumCategory();
-    summary.push(sumCategory.toMarkdown());
-    return summary.join('\n\n');
+    return summary.join('\n');
   }
 
-  createTodaySumCategory() {
+  createTodaySumTable() {
     const summary = new Category('概览', '', true);
     const totalTime = new StatTime();
     summary.nodes.push(new StatItem('总计', totalTime));
@@ -41,6 +39,10 @@ export default class CategoryCollection extends Map {
       summary.nodes.push(new StatItem(category.title, category.time));
       totalTime.add(category.time);
     }
-    return summary;
+    const table = [`\n### ${summary.title}\n`];
+    table.push('|分类|用时|占比|');
+    table.push('|----|----|----|');
+    table.push(...summary.toMarkdownTable());
+    return table.join('\n');
   }
 }
