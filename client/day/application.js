@@ -1,5 +1,6 @@
 import CategoryCollection from '../model/collection';
 import Category from '../model/category';
+import DEMO from '../util/init_content';
 
 const TAG = '[Application] ';
 
@@ -18,7 +19,7 @@ export default class Application {
     this.$content = this.find('.origin textarea');
     this.$result = this.find('.stats-result textarea');
 
-    this.content = '';
+    this.content = DEMO;
     this.stats = '';
     this.collection = new CategoryCollection();
 

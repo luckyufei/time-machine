@@ -29,6 +29,7 @@ export default class Category {
   }
 
   parseNode(item) {
+    item = item.replace(/\s*(\d+小时)\s*/g, '$10分');
     const matches = item.match(REG_ITEM);
     console.log(`${TAG} prepare parse item: ${item}, matches: ${JSON.stringify(matches)}`);
     const items = matches.map((m) => {
