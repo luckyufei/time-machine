@@ -92,7 +92,7 @@ export default class Category {
 
       return md.join('\n');
     }
-    throw new Error('Category require children or nodes is not empty!');
+    return `\n### ${this.title}\n`;
   }
 
   toMarkdownTable() {
@@ -101,7 +101,7 @@ export default class Category {
       if (idx === 0) {
         return `|${item.key}|${item.time.toString()}|-|`;
       }
-      return `|${item.key}|${item.time.toString()}|${totalStat.percent(item.time)}|`;
+      return `|${item.key}|${item.time.toString() || '-'}|${totalStat.percent(item.time)}|`;
     });
   }
 }
