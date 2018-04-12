@@ -7,7 +7,7 @@
   "homepage": "https://github.com/allanfish/time-machine",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --config webpack.config.dev.js",
-    "build": "webpack -p --progress --config webpack.config.build.js"
+    "build": "webpack --progress --config webpack.config.build.js"
   },
   "repository": {
     "type": "git",
