@@ -22,10 +22,11 @@ class OriginItem {
     cost,
     endTime,
   } = {}) {
+    console.log(`OriginItem: title=${title}, cost=${cost}`);
     if (startTime) this.startTime = new TimeItem(...startTime.split(':'));
     if (endTime) this.endTime = new TimeItem(...endTime.split(':'));
     this.title = title;
-    this.cost = cost || 0;
+    this.cost = parseInt(cost || 0, 10);
     this.index = index;
     index++;
   }
@@ -45,7 +46,7 @@ class OriginItem {
   }
 
   toString() {
-    return `${this.title} -- ${this.coststr()}`;
+    return `- ${this.title} — ${this.coststr()}`;
   }
 }
 

@@ -9,6 +9,7 @@ export default class Category {
   constructor(title, item, root = false) {
     this.title = title;
     this.root = root;
+    this.dailyTitle = '';
 
     if (this.root) {
       const items = item ? this.parseSub(item) : [];
@@ -24,6 +25,7 @@ export default class Category {
       }
       if (this.title.split(':').length > 1) {
         this.title = this.title.split(':')[0];
+        this.nodes[0].key = this.nodes[0].key.replace(/^[\s\S]+:/, '');
       }
     }
   }
@@ -45,7 +47,7 @@ export default class Category {
     const items = item.split('\n');
     console.log(`${TAG} origin items=`, items);
 
-    const convertedItems = items.filter(item => !!item && !!item.trim())
+    const convertedItems = items.filter(item => !!item && !!item.trim() && item !== '### ')
       .map(item => item.replace(/\s{2,}/g, ''))
       .map(item => item.replace(/^-\s/g, ''));
     console.log(`${TAG} convertedItems: items = `, convertedItems);
@@ -66,12 +68,16 @@ export default class Category {
     return `${TAG} ${JSON.stringify(this)}`;
   }
 
+  nodeToStr() {
+    return `[${this.nodes.map(node => `${node.key}: ${node.time.toString()}`).join(',')}]`;
+  }
+
   toMarkdown() {
     if (this.children.length) {
       const md = [`\n### ${this.title}\n`];
-      md.push(`> 小计 — ${this.time.toString()}`);
+      md.push(`\`小计 — ${this.time.toString()}\``);
       this.children.forEach((sub) => {
-        md.push(`- ${sub.title} — ${sub.time.toString()}`);
+        md.push(`- ${sub.title} ${sub.nodes.length > 1 ? sub.nodeToStr() : ''} — ${sub.time.toString()}`);
       });
       return md.join('\n');
     }
